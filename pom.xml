@@ -23,6 +23,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<druid.version>1.0.11</druid.version>
+		<rxtx.version>1.9.1</rxtx.version>
+		<netty.version>4.0.30.Final</netty.version>
+		<shardingjdbc.version>1.4.1</shardingjdbc.version>
+		<com.google.code.gson.version>2.8.0</com.google.code.gson.version>
 	</properties>
 
 	<dependencies>
@@ -86,6 +90,47 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>${druid.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bidib.jbidib</groupId>
+			<artifactId>jbidibc-rxtx</artifactId>
+			<version>${rxtx.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-net</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+
+		<!-- 引入sharding-jdbc核心模块 -->
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<version>${shardingjdbc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-self-id-generator</artifactId>
+			<version>${shardingjdbc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${com.google.code.gson.version}</version>
 		</dependency>
 	</dependencies>
 
