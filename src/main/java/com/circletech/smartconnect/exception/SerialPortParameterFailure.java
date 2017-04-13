@@ -10,7 +10,7 @@ public class SerialPortParameterFailure extends Exception {
 
 	@Override
 	public String toString() {
-		return "设置串口参数失败！打开串口操作未完成！";
+		return "Failed to set serial port parameters! Open serial operation is not complete!";
 	}
 	
 }

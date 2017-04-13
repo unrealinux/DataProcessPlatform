@@ -49,22 +49,22 @@ public class SystemInfoParser implements Runnable{
 
                     switch (infoCode) {
                         case 0x00:
-                            infoContent = "设备未知错误";
+                            infoContent = "Device unknown error";
                             break;
                         case 0x01:
-                            infoContent = "设备启动";
+                            infoContent = "Device start";
                             break;
                         case 0x02:
-                            infoContent = "设备电量低";
+                            infoContent = "Low power equipment";
                             break;
                         case 0x03:
-                            infoContent = "设备无法正常连接传感器:" + deviceID;
+                            infoContent = "Device not connected to sensor:" + deviceID;
                             break;
                         case 0x04:
-                            infoContent = "设备无法定位";
+                            infoContent = "Device could not locate";
                             break;
                         case 0xEE:
-                            infoContent = "设备文字消息";
+                            infoContent = "Device text message";
                             break;
                     }
 

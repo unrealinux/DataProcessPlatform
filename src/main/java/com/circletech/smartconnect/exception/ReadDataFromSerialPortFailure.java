@@ -10,7 +10,7 @@ public class ReadDataFromSerialPortFailure extends Exception {
 
 	@Override
 	public String toString() {
-		return "从串口读取数据时出错！";
+		return "Error reading data from serial port!";
 	}
 	
 }

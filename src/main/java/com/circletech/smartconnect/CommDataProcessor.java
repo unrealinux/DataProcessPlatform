@@ -198,26 +198,26 @@ public class CommDataProcessor extends Observable implements Runnable{
 
             switch (serialPortEvent.getEventType()) {
 
-                case SerialPortEvent.BI: // 10 通讯中断communication break
+                case SerialPortEvent.BI: // 10 interruption of communication
                     break;
 
-                case SerialPortEvent.OE: // 7 溢位（溢出）错误overflow error
+                case SerialPortEvent.OE: // 7 Overflow (overflow) error
 
-                case SerialPortEvent.FE: // 9 帧错误frome error
+                case SerialPortEvent.FE: // 9 frame error
 
-                case SerialPortEvent.PE: // 8 奇偶校验错误odd check error
+                case SerialPortEvent.PE: // 8 parity error
 
-                case SerialPortEvent.CD: // 6 载波检测check
+                case SerialPortEvent.CD: // 6 Carrier detection
 
-                case SerialPortEvent.CTS: // 3 清除待发送数据clear data
+                case SerialPortEvent.CTS: // 3 Clear data to be sent
 
-                case SerialPortEvent.DSR: // 4 待发送数据准备好了
+                case SerialPortEvent.DSR: // 4 Ready to send data
 
-                case SerialPortEvent.RI: // 5 振铃指示
+                case SerialPortEvent.RI: // 5 Ringing indication
 
-                case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2 输出缓冲区已清空
+                case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2 Output buffer is empty
                     break;
-                case SerialPortEvent.DATA_AVAILABLE: // 1 串口存在可用数据
+                case SerialPortEvent.DATA_AVAILABLE: // 1 Serial port available data
                 {
                     LoggerUtil.getInstance().info("comm get data continue");
                     isActive = true;

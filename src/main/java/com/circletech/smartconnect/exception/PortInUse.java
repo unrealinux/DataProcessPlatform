@@ -9,12 +9,12 @@ public class PortInUse extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public PortInUse() {
-		LoggerUtil.getInstance().info("端口已被占用！打开串口操作失败！");
+		LoggerUtil.getInstance().info("Port is occupied! Failed to open serial port operation!");
 	}
 
 	@Override
 	public String toString() {
-		return "端口已被占用！打开串口操作失败！";
+		return "Port is occupied! Failed to open serial port operation!";
 	}
 	
 }

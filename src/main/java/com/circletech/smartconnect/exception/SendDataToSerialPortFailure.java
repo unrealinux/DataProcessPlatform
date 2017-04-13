@@ -10,7 +10,7 @@ public class SendDataToSerialPortFailure extends Exception {
 
 	@Override
 	public String toString() {
-		return "往串口发送数据失败！";
+		return "Failed to send data to serial port!";
 	}
 	
 }

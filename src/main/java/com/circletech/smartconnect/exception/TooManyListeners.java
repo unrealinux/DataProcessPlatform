@@ -10,7 +10,7 @@ public class TooManyListeners extends Exception {
 
 	@Override
 	public String toString() {
-		return "串口监听类数量过多！添加操作失败！";
+		return "Excessive number of serial listening class! Add operation failed!";
 	}
 	
 }

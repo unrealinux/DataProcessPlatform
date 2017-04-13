@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * redicache 工具类
+ * redicache tool class
  *
  */
 @SuppressWarnings("unchecked")
@@ -24,7 +24,7 @@ public class RedisUtil {
     @Autowired
     private RedisTemplate redisTemplate;
     /**
-     * 批量删除对应的value
+     * Batch delete corresponding value
      *
      * @param keys
      */
@@ -34,7 +34,7 @@ public class RedisUtil {
         }
     }
     /**
-     * 批量删除key
+     * Batch delete key
      *
      * @param pattern
      */
@@ -44,7 +44,7 @@ public class RedisUtil {
             redisTemplate.delete(keys);
     }
     /**
-     * 删除对应的value
+     * Delete the corresponding value
      *
      * @param key
      */
@@ -54,7 +54,7 @@ public class RedisUtil {
         }
     }
     /**
-     * 判断缓存中是否有对应的value
+     * Determine whether there is a corresponding cache value
      *
      * @param key
      * @return
@@ -63,7 +63,7 @@ public class RedisUtil {
         return redisTemplate.hasKey(key);
     }
     /**
-     * 读取缓存
+     * Read cache
      *
      * @param key
      * @return
@@ -75,7 +75,7 @@ public class RedisUtil {
         return result;
     }
     /**
-     * 写入缓存
+     * Write cache
      *
      * @param key
      * @param value
@@ -93,7 +93,7 @@ public class RedisUtil {
         return result;
     }
     /**
-     * 写入缓存
+     * Write cache
      *
      * @param key
      * @param value

@@ -52,16 +52,16 @@ public class TransducerDataParser implements Runnable{
                     ParserDataTask task = dataBuffer.take();
 
                     mData = task.getData();
-                    //(id高位 + id低位 + 传感器id + 传感器类型, messagelength 从设备id高位开始起算)
+                    //(id high bit + id low bit + sensor id + sensor type, messagelength)
                     int messageLength = SerialUtil.getUnsignedByte(mData[1]);
 
                     int deviceID = SerialUtil.getUnsignedByte(mData[2])*256+ SerialUtil.getUnsignedByte(mData[3]);
-                    //传感器ID
+                    //sensor id
                     int sensorID = SerialUtil.getUnsignedByte(mData[5]);
-                    //传感器类型
+                    //sensor type
                     int sensorType = SerialUtil.getUnsignedByte(mData[6]);
 
-                    //传感器数据内容
+                    //sensor content
                     int length = messageLength - 5;
                     byte[] sensorDataContent = new byte[length];
                     for (int i = 0; i < length; i++) {
@@ -76,11 +76,11 @@ public class TransducerDataParser implements Runnable{
                         return;
                     }
 
-                    if(sensorType==1) //光线：Highbit X 256 + LowBit
+                    if(sensorType==1) //light：Highbit X 256 + LowBit
                         sensorValue = (double)SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]);
-                    if(sensorType==2) //温度：(Highbit X 256 + LowBit)/100
+                    if(sensorType==2) //temperature：(Highbit X 256 + LowBit)/100
                         sensorValue = ((SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]))/100.0);
-                    if(sensorType==3) //湿度：(Highbit X 256 + LowBit)/10
+                    if(sensorType==3) //humidity：(Highbit X 256 + LowBit)/10
                         sensorValue = ((SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]))/10.0);
 
 

@@ -10,6 +10,6 @@ public class SerialPortOutputStreamCloseFailure extends Exception {
 
 	@Override
 	public String toString() {
-		return "关闭串口对象的输出流（OutputStream）时出错！";
+		return "Error closing the output stream (OutputStream) of the serial object!";
 	}
 }

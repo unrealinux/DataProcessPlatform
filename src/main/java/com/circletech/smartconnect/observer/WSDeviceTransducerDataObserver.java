@@ -13,7 +13,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by xieyingfei on 2016/12/15.观察传感器数据的变化Web版本
+ * Created by xieyingfei on 2016/12/15.
+ Observe changes in sensor data Web version
  */
 public class WSDeviceTransducerDataObserver implements Observer {
 
