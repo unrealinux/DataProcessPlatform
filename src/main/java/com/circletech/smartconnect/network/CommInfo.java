@@ -1,18 +1,37 @@
-package com.circletech.smartconnect;
+package com.circletech.smartconnect.network;
 
 /**
- * Created by xieyingfei on 2016/12/14. //comm data infromation class
+ * Created by xieyingfei on 2016/12/14. //Comm information entity
  */
 public class CommInfo {
 
     private String commName;
     private Long   commType;
-    //其他信息属性
+
     private int baudrate;
     private String dataw;
     private String jiaoy;
     private String liuk;
     private String stopw;
+
+    public CommInfo() {
+    }
+
+    public CommInfo(String commName, Long commType) {
+        this.commName = commName;
+        this.commType = commType;
+    }
+
+    public CommInfo(String commName, Long commType, int baudrate, String dataw, String jiaoy, String liuk, String stopw) {
+        this.commName = commName;
+        this.commType = commType;
+        this.baudrate = baudrate;
+        this.dataw = dataw;
+        this.jiaoy = jiaoy;
+        this.liuk = liuk;
+        this.stopw = stopw;
+    }
+
 
     public int getBaudrate() {
         return baudrate;
@@ -68,23 +87,5 @@ public class CommInfo {
 
     public void setCommType(Long commType) {
         this.commType = commType;
-    }
-
-    public CommInfo() {
-    }
-
-    public CommInfo(String commName, Long commType) {
-        this.commName = commName;
-        this.commType = commType;
-    }
-
-    public CommInfo(String commName, Long commType, int baudrate, String dataw, String jiaoy, String liuk, String stopw) {
-        this.commName = commName;
-        this.commType = commType;
-        this.baudrate = baudrate;
-        this.dataw = dataw;
-        this.jiaoy = jiaoy;
-        this.liuk = liuk;
-        this.stopw = stopw;
     }
 }
