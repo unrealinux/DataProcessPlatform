@@ -5,6 +5,7 @@ import com.circletech.smartconnect.data.DeviceTransducerDataData;
 import com.circletech.smartconnect.data.OutputTransducerBuffer;
 import com.circletech.smartconnect.service.DeviceTransducerDataService;
 import com.circletech.smartconnect.util.ConstantUtil;
+import javafx.util.Builder;
 
 /**
  * Created by xieyingfei on 2017/1/13.
@@ -12,7 +13,7 @@ import com.circletech.smartconnect.util.ConstantUtil;
 public class TransducerSender implements Runnable {
 
     private DeviceTransducerDataService deviceTransducerDataService;
-    private CommDataProcessor CommDataProcessor;
+    private CommDataProcessor receiveCommProcessor;
     private OutputTransducerBuffer outputTransducerBuffer;
     private DeviceTransducerDataData deviceTransducerData;
 
@@ -24,12 +25,12 @@ public class TransducerSender implements Runnable {
         this.deviceTransducerDataService = deviceTransducerDataService;
     }
 
-    public CommDataProcessor getCommDataProcessor() {
-        return CommDataProcessor;
+    public CommDataProcessor getReceiveCommProcessor() {
+        return receiveCommProcessor;
     }
 
-    public void setCommDataProcessor(CommDataProcessor CommDataProcessor) {
-        this.CommDataProcessor = CommDataProcessor;
+    public void setReceiveCommProcessor(CommDataProcessor receiveCommProcessor) {
+        this.receiveCommProcessor = receiveCommProcessor;
     }
 
     public OutputTransducerBuffer getOutputTransducerBuffer() {
@@ -48,18 +49,51 @@ public class TransducerSender implements Runnable {
         this.deviceTransducerData = deviceTransducerData;
     }
 
-    public TransducerSender(DeviceTransducerDataService deviceTransducerDataService, CommDataProcessor CommDataProcessor, OutputTransducerBuffer outputTransducerBuffer, DeviceTransducerDataData deviceTransducerData) {
-        this.deviceTransducerDataService = deviceTransducerDataService;
-        this.CommDataProcessor = CommDataProcessor;
-        this.outputTransducerBuffer = outputTransducerBuffer;
-        this.deviceTransducerData = deviceTransducerData;
+    public static class TransducerSenderBuilder implements Builder<TransducerSender> {
+
+        private DeviceTransducerDataService deviceTransducerDataService;
+        private CommDataProcessor receiveCommProcessor;
+        private OutputTransducerBuffer outputTransducerBuffer;
+        private DeviceTransducerDataData deviceTransducerData;
+
+        public TransducerSenderBuilder deviceTransducerDataService(DeviceTransducerDataService deviceTransducerDataService){
+            this.deviceTransducerDataService = deviceTransducerDataService;
+            return this;
+        }
+
+        public TransducerSenderBuilder receiveCommProcessor(CommDataProcessor receiveCommProcessor){
+            this.receiveCommProcessor = receiveCommProcessor;
+            return this;
+        }
+
+        public TransducerSenderBuilder outputTransducerBuffer(OutputTransducerBuffer outputTransducerBuffer){
+            this.outputTransducerBuffer = outputTransducerBuffer;
+            return this;
+        }
+
+        public TransducerSenderBuilder deviceTransducerData(DeviceTransducerDataData deviceTransducerDataData){
+            this.deviceTransducerData = deviceTransducerDataData;
+            return this;
+        }
+
+        public TransducerSender build(){
+            return new TransducerSender(this);
+        }
+    }
+
+    private TransducerSender(TransducerSenderBuilder builder){
+
+        this.deviceTransducerData = builder.deviceTransducerData;
+        this.deviceTransducerDataService = builder.deviceTransducerDataService;
+        this.outputTransducerBuffer = builder.outputTransducerBuffer;
+        this.receiveCommProcessor = builder.receiveCommProcessor;
     }
 
     @Override
     public void run() {
 
         while (true){
-            outputTransducerBuffer.output(deviceTransducerDataService, deviceTransducerData, CommDataProcessor);
+            outputTransducerBuffer.output(deviceTransducerDataService, deviceTransducerData, receiveCommProcessor);
             try{
                 Thread.sleep(ConstantUtil.THREAD_SLEEP_SPAN);
             }catch (InterruptedException e){

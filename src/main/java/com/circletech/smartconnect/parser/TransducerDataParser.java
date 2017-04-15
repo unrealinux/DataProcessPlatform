@@ -1,15 +1,13 @@
 package com.circletech.smartconnect.parser;
 
 import com.circletech.smartconnect.ParserDataTask;
-import com.circletech.smartconnect.CommDataProcessor;
-import com.circletech.smartconnect.data.DeviceTransducerDataData;
 import com.circletech.smartconnect.data.OutputTransducerBuffer;
 import com.circletech.smartconnect.data.TransducerTimeStampData;
 import com.circletech.smartconnect.model.DeviceTransducerData;
-import com.circletech.smartconnect.service.DeviceTransducerDataService;
 import com.circletech.smartconnect.util.ConstantUtil;
 import com.circletech.smartconnect.util.LoggerUtil;
 import com.circletech.smartconnect.util.SerialUtil;
+import javafx.util.Builder;
 
 import java.sql.Timestamp;
 import java.util.concurrent.BlockingQueue;
@@ -19,29 +17,38 @@ import java.util.concurrent.BlockingQueue;
  */
 public class TransducerDataParser implements Runnable{
     private byte[] mData;
-    private DeviceTransducerDataService deviceTransducerDataService;
-    private DeviceTransducerDataData deviceTransducerDataData;
-
-    private CommDataProcessor CommDataProcessor;
 
     private BlockingQueue<ParserDataTask> dataBuffer;
 
     private OutputTransducerBuffer outputTransducerBuffer;
 
+    public static class TransducerDataParserBuilder implements Builder<TransducerDataParser>{
 
-    public TransducerDataParser(DeviceTransducerDataService deviceTransducerDataService,
-                                DeviceTransducerDataData deviceTransducerDataData,
-                                CommDataProcessor CommDataProcessor,
-                                BlockingQueue<ParserDataTask> dataBuffer,
-                                OutputTransducerBuffer outputTransducerBuffer){
+        private BlockingQueue<ParserDataTask> dataBuffer;
 
-        this.deviceTransducerDataService = deviceTransducerDataService;
-        this.deviceTransducerDataData = deviceTransducerDataData;
-        this.CommDataProcessor = CommDataProcessor;
+        private OutputTransducerBuffer outputTransducerBuffer;
 
-        this.dataBuffer = dataBuffer;
+        public TransducerDataParserBuilder dataBuffer(BlockingQueue<ParserDataTask> dataBuffer){
+            this.dataBuffer = dataBuffer;
+            return this;
+        }
 
-        this.outputTransducerBuffer = outputTransducerBuffer;
+        public TransducerDataParserBuilder outputTransducerBuffer(OutputTransducerBuffer outputTransducerBuffer){
+            this.outputTransducerBuffer = outputTransducerBuffer;
+            return this;
+        }
+
+        public TransducerDataParser build(){
+            return new TransducerDataParser(this);
+        }
+    }
+
+
+    private TransducerDataParser(TransducerDataParserBuilder builder){
+
+        this.dataBuffer = builder.dataBuffer;
+
+        this.outputTransducerBuffer = builder.outputTransducerBuffer;
     }
 
     public void run(){
@@ -52,16 +59,16 @@ public class TransducerDataParser implements Runnable{
                     ParserDataTask task = dataBuffer.take();
 
                     mData = task.getData();
-                    //(id high bit + id low bit + sensor id + sensor type, messagelength)
+                    //(id高位 + id低位 + 传感器id + 传感器类型, messagelength 从设备id高位开始起算)
                     int messageLength = SerialUtil.getUnsignedByte(mData[1]);
 
                     int deviceID = SerialUtil.getUnsignedByte(mData[2])*256+ SerialUtil.getUnsignedByte(mData[3]);
-                    //sensor id
+                    //传感器ID
                     int sensorID = SerialUtil.getUnsignedByte(mData[5]);
-                    //sensor type
+                    //传感器类型
                     int sensorType = SerialUtil.getUnsignedByte(mData[6]);
 
-                    //sensor content
+                    //传感器数据内容
                     int length = messageLength - 5;
                     byte[] sensorDataContent = new byte[length];
                     for (int i = 0; i < length; i++) {
@@ -76,11 +83,11 @@ public class TransducerDataParser implements Runnable{
                         return;
                     }
 
-                    if(sensorType==1) //light：Highbit X 256 + LowBit
+                    if(sensorType==1) //光线：Highbit X 256 + LowBit
                         sensorValue = (double)SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]);
-                    if(sensorType==2) //temperature：(Highbit X 256 + LowBit)/100
+                    if(sensorType==2) //温度：(Highbit X 256 + LowBit)/100
                         sensorValue = ((SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]))/100.0);
-                    if(sensorType==3) //humidity：(Highbit X 256 + LowBit)/10
+                    if(sensorType==3) //湿度：(Highbit X 256 + LowBit)/10
                         sensorValue = ((SerialUtil.getUnsignedByte(sensorDataContent[0])*256 + SerialUtil.getUnsignedByte(sensorDataContent[1]))/10.0);
 
 

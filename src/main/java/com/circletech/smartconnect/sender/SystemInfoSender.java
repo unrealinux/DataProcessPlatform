@@ -4,6 +4,7 @@ import com.circletech.smartconnect.data.DeviceSystemInfoData;
 import com.circletech.smartconnect.data.OutputSystemInfoBuffer;
 import com.circletech.smartconnect.service.DeviceSystemInfoService;
 import com.circletech.smartconnect.util.ConstantUtil;
+import javafx.util.Builder;
 
 /**
  * Created by xieyingfei on 2017/1/13.
@@ -38,10 +39,37 @@ public class SystemInfoSender implements Runnable {
         this.deviceSystemInfoData = deviceSystemInfoData;
     }
 
-    public SystemInfoSender(DeviceSystemInfoService deviceSystemInfoService, OutputSystemInfoBuffer outputSystemInfoBuffer, DeviceSystemInfoData deviceSystemInfoData) {
-        this.deviceSystemInfoService = deviceSystemInfoService;
-        this.outputSystemInfoBuffer = outputSystemInfoBuffer;
-        this.deviceSystemInfoData = deviceSystemInfoData;
+    public static class SystemInfoSenderBuilder implements Builder<SystemInfoSender> {
+
+        private DeviceSystemInfoService deviceSystemInfoService;
+        private OutputSystemInfoBuffer outputSystemInfoBuffer;
+        private DeviceSystemInfoData deviceSystemInfoData;
+
+        public SystemInfoSenderBuilder deviceSystemInfoService(DeviceSystemInfoService deviceSystemInfoService){
+            this.deviceSystemInfoService = deviceSystemInfoService;
+            return this;
+        }
+
+        public SystemInfoSenderBuilder outputSystemInfoBuffer(OutputSystemInfoBuffer outputSystemInfoBuffer){
+            this.outputSystemInfoBuffer = outputSystemInfoBuffer;
+            return this;
+        }
+
+        public SystemInfoSenderBuilder deviceSystemInfoData(DeviceSystemInfoData systemInfoDataData){
+            this.deviceSystemInfoData = systemInfoDataData;
+            return this;
+        }
+
+        public SystemInfoSender build(){
+
+            return new SystemInfoSender(this);
+        }
+    }
+
+    private SystemInfoSender(SystemInfoSenderBuilder builder) {
+        this.deviceSystemInfoService = builder.deviceSystemInfoService;
+        this.outputSystemInfoBuffer = builder.outputSystemInfoBuffer;
+        this.deviceSystemInfoData = builder.deviceSystemInfoData;
     }
 
     @Override

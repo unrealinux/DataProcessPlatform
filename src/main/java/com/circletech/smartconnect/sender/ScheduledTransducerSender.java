@@ -4,6 +4,7 @@ import com.circletech.smartconnect.CommDataProcessor;
 import com.circletech.smartconnect.data.DeviceTransducerDataData;
 import com.circletech.smartconnect.data.OutputTransducerBuffer;
 import com.circletech.smartconnect.service.DeviceTransducerDataService;
+import javafx.util.Builder;
 
 /**
  * Created by xieyingfei on 2017/1/13.
@@ -11,7 +12,7 @@ import com.circletech.smartconnect.service.DeviceTransducerDataService;
 public class ScheduledTransducerSender implements Runnable {
 
     private DeviceTransducerDataService deviceTransducerDataService;
-    private CommDataProcessor CommDataProcessor;
+    private CommDataProcessor receiveCommProcessor;
     private OutputTransducerBuffer outputTransducerBuffer;
     private DeviceTransducerDataData deviceTransducerData;
 
@@ -23,12 +24,12 @@ public class ScheduledTransducerSender implements Runnable {
         this.deviceTransducerDataService = deviceTransducerDataService;
     }
 
-    public CommDataProcessor getCommDataProcessor() {
-        return CommDataProcessor;
+    public CommDataProcessor getReceiveCommProcessor() {
+        return receiveCommProcessor;
     }
 
-    public void setCommDataProcessor(CommDataProcessor CommDataProcessor) {
-        this.CommDataProcessor = CommDataProcessor;
+    public void setReceiveCommProcessor(CommDataProcessor receiveCommProcessor) {
+        this.receiveCommProcessor = receiveCommProcessor;
     }
 
     public OutputTransducerBuffer getOutputTransducerBuffer() {
@@ -47,15 +48,55 @@ public class ScheduledTransducerSender implements Runnable {
         this.deviceTransducerData = deviceTransducerData;
     }
 
-    public ScheduledTransducerSender(DeviceTransducerDataService deviceTransducerDataService, CommDataProcessor CommDataProcessor, OutputTransducerBuffer outputTransducerBuffer, DeviceTransducerDataData deviceTransducerData) {
+    public static class ScheduledTransducerSenderBuilder implements Builder<ScheduledTransducerSender> {
+
+        private DeviceTransducerDataService deviceTransducerDataService;
+        private CommDataProcessor receiveCommProcessor;
+        private OutputTransducerBuffer outputTransducerBuffer;
+        private DeviceTransducerDataData deviceTransducerData;
+
+        public ScheduledTransducerSenderBuilder deviceTransducerDataService(DeviceTransducerDataService deviceTransducerDataService){
+            this.deviceTransducerDataService = deviceTransducerDataService;
+            return this;
+        }
+
+        public ScheduledTransducerSenderBuilder receiveCommProcessor(CommDataProcessor receiveCommProcessor){
+            this.receiveCommProcessor = receiveCommProcessor;
+            return this;
+        }
+
+        public ScheduledTransducerSenderBuilder outputTransducerBuffer(OutputTransducerBuffer outputTransducerBuffer){
+            this.outputTransducerBuffer = outputTransducerBuffer;
+            return this;
+        }
+
+        public ScheduledTransducerSenderBuilder deviceTransducerData(DeviceTransducerDataData deviceTransducerDataData){
+            this.deviceTransducerData = deviceTransducerDataData;
+            return this;
+        }
+
+        public ScheduledTransducerSender build(){
+            return new ScheduledTransducerSender(this);
+        }
+    }
+
+    private ScheduledTransducerSender(ScheduledTransducerSenderBuilder builder){
+
+        this.deviceTransducerData = builder.deviceTransducerData;
+        this.deviceTransducerDataService = builder.deviceTransducerDataService;
+        this.outputTransducerBuffer = builder.outputTransducerBuffer;
+        this.receiveCommProcessor = builder.receiveCommProcessor;
+    }
+
+    public ScheduledTransducerSender(DeviceTransducerDataService deviceTransducerDataService, CommDataProcessor receiveCommProcessor, OutputTransducerBuffer outputTransducerBuffer, DeviceTransducerDataData deviceTransducerData) {
         this.deviceTransducerDataService = deviceTransducerDataService;
-        this.CommDataProcessor = CommDataProcessor;
+        this.receiveCommProcessor = receiveCommProcessor;
         this.outputTransducerBuffer = outputTransducerBuffer;
         this.deviceTransducerData = deviceTransducerData;
     }
 
     @Override
     public void run() {
-        outputTransducerBuffer.scheduleOutput(deviceTransducerDataService, deviceTransducerData, CommDataProcessor);
+        outputTransducerBuffer.scheduleOutput(deviceTransducerDataService, deviceTransducerData, receiveCommProcessor);
     }
 }
