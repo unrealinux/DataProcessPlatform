@@ -30,7 +30,7 @@ public class SerialListener implements SerialPortEventListener {
     private DeviceTransducerDataData deviceTransducerDataData;
 
     //作为被观察者传入监控上面具体数据类的变化
-    private CommDataProcessor receiveCommProcessor;
+    private CommDataProcessor commDataProcessor;
 
     private boolean isActive;
     private SerialPort serialPort = null; //保存串口对象
@@ -51,7 +51,7 @@ public class SerialListener implements SerialPortEventListener {
 
         this.deviceTransducerDataData = builder.deviceTransducerDataData;
 
-        this.receiveCommProcessor = builder.receiveCommProcessor;
+        this.commDataProcessor = builder.commDataProcessor;
     }
 
     public static class SerialListenerBuilder implements Builder<SerialListener> {
@@ -64,7 +64,7 @@ public class SerialListener implements SerialPortEventListener {
         private DeviceTransducerDataData deviceTransducerDataData;
 
         //作为被观察者传入监控上面具体数据类的变化
-        private CommDataProcessor receiveCommProcessor;
+        private CommDataProcessor commDataProcessor;
 
         private boolean isActive;
         private SerialPort serialPort = null; //保存串口对象
@@ -89,8 +89,8 @@ public class SerialListener implements SerialPortEventListener {
             return this;
         }
 
-        public SerialListenerBuilder receiveCommProcessor(CommDataProcessor receiveCommProcessor){
-            this.receiveCommProcessor = receiveCommProcessor;
+        public SerialListenerBuilder commDataProcessor(CommDataProcessor commDataProcessor){
+            this.commDataProcessor = commDataProcessor;
             return this;
         }
 

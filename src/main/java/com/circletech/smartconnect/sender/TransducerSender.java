@@ -13,7 +13,7 @@ import javafx.util.Builder;
 public class TransducerSender implements Runnable {
 
     private DeviceTransducerDataService deviceTransducerDataService;
-    private CommDataProcessor receiveCommProcessor;
+    private CommDataProcessor commDataProcessor;
     private OutputTransducerBuffer outputTransducerBuffer;
     private DeviceTransducerDataData deviceTransducerData;
 
@@ -25,12 +25,12 @@ public class TransducerSender implements Runnable {
         this.deviceTransducerDataService = deviceTransducerDataService;
     }
 
-    public CommDataProcessor getReceiveCommProcessor() {
-        return receiveCommProcessor;
+    public CommDataProcessor getCommDataProcessor() {
+        return commDataProcessor;
     }
 
-    public void setReceiveCommProcessor(CommDataProcessor receiveCommProcessor) {
-        this.receiveCommProcessor = receiveCommProcessor;
+    public void setCommDataProcessor(CommDataProcessor commDataProcessor) {
+        this.commDataProcessor = commDataProcessor;
     }
 
     public OutputTransducerBuffer getOutputTransducerBuffer() {
@@ -52,7 +52,7 @@ public class TransducerSender implements Runnable {
     public static class TransducerSenderBuilder implements Builder<TransducerSender> {
 
         private DeviceTransducerDataService deviceTransducerDataService;
-        private CommDataProcessor receiveCommProcessor;
+        private CommDataProcessor commDataProcessor;
         private OutputTransducerBuffer outputTransducerBuffer;
         private DeviceTransducerDataData deviceTransducerData;
 
@@ -61,8 +61,8 @@ public class TransducerSender implements Runnable {
             return this;
         }
 
-        public TransducerSenderBuilder receiveCommProcessor(CommDataProcessor receiveCommProcessor){
-            this.receiveCommProcessor = receiveCommProcessor;
+        public TransducerSenderBuilder commDataProcessor(CommDataProcessor commDataProcessor){
+            this.commDataProcessor = commDataProcessor;
             return this;
         }
 
@@ -86,14 +86,14 @@ public class TransducerSender implements Runnable {
         this.deviceTransducerData = builder.deviceTransducerData;
         this.deviceTransducerDataService = builder.deviceTransducerDataService;
         this.outputTransducerBuffer = builder.outputTransducerBuffer;
-        this.receiveCommProcessor = builder.receiveCommProcessor;
+        this.commDataProcessor = builder.commDataProcessor;
     }
 
     @Override
     public void run() {
 
         while (true){
-            outputTransducerBuffer.output(deviceTransducerDataService, deviceTransducerData, receiveCommProcessor);
+            outputTransducerBuffer.output(deviceTransducerDataService, deviceTransducerData, commDataProcessor);
             try{
                 Thread.sleep(ConstantUtil.THREAD_SLEEP_SPAN);
             }catch (InterruptedException e){

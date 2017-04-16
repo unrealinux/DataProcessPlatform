@@ -41,11 +41,9 @@ public class CommDataProcessor extends Observable implements Runnable{
     private DeviceSystemInfoData deviceSystemInfoData;
 
     //data type for observered data
-    private static final int FLAG_POSDATA = 1;//for position
     private static final int FLAG_SENSORDATA = 2;//for device
 
     //receive data wrapper for three kind of comm data
-    private BlockingQueue<ParserDataTask> posDataBuffer;
     private BlockingQueue<ParserDataTask> sensorDataBuffer;
     private BlockingQueue<ParserDataTask> systemInfoBuffer;
 
@@ -80,7 +78,6 @@ public class CommDataProcessor extends Observable implements Runnable{
         this.customConfig = customConfig;
         int maxsize = this.customConfig.getDataQueueSize();
 
-        this.posDataBuffer = new LinkedBlockingQueue<ParserDataTask>(maxsize);
         this.sensorDataBuffer = new LinkedBlockingQueue<ParserDataTask>(maxsize);
         this.systemInfoBuffer = new LinkedBlockingQueue<ParserDataTask>(maxsize);
 
@@ -151,7 +148,7 @@ public class CommDataProcessor extends Observable implements Runnable{
                     .deviceSystemInfoService(deviceSystemInfoService)
                     .deviceTransducerDataService(deviceTransducerDataService)
                     .deviceTransducerDataData(transducerDataData)
-                    .receiveCommProcessor(this)
+                    .commDataProcessor(this)
                     .sensorDataBuffer(sensorDataBuffer)
                     .systemInfoBuffer(systemInfoBuffer).build());
 
@@ -178,7 +175,7 @@ public class CommDataProcessor extends Observable implements Runnable{
                 .outputTransducerBuffer(outputTransducerBuffer)
                 .deviceTransducerData(transducerDataData)
                 .deviceTransducerDataService(deviceTransducerDataService)
-                .receiveCommProcessor(this)
+                .commDataProcessor(this)
                 .build());
             }
 
@@ -194,7 +191,7 @@ public class CommDataProcessor extends Observable implements Runnable{
             ScheduledExecutorService service = Executors
                     .newSingleThreadScheduledExecutor();
             service.scheduleAtFixedRate(new ScheduledTransducerSender.ScheduledTransducerSenderBuilder()
-                    .receiveCommProcessor(this)
+                    .commDataProcessor(this)
                     .deviceTransducerData(transducerDataData)
                     .deviceTransducerDataService(deviceTransducerDataService)
                     .outputTransducerBuffer(outputTransducerBuffer).build(), ConstantUtil.SCHEDULE_CLEAR_INIT + 1, ConstantUtil.SCHEDULE_SENDER, TimeUnit.MILLISECONDS);

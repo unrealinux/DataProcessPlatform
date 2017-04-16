@@ -12,7 +12,7 @@ import javafx.util.Builder;
 public class ScheduledTransducerSender implements Runnable {
 
     private DeviceTransducerDataService deviceTransducerDataService;
-    private CommDataProcessor receiveCommProcessor;
+    private CommDataProcessor commDataProcessor;
     private OutputTransducerBuffer outputTransducerBuffer;
     private DeviceTransducerDataData deviceTransducerData;
 
@@ -24,12 +24,12 @@ public class ScheduledTransducerSender implements Runnable {
         this.deviceTransducerDataService = deviceTransducerDataService;
     }
 
-    public CommDataProcessor getReceiveCommProcessor() {
-        return receiveCommProcessor;
+    public CommDataProcessor getCommDataProcessor() {
+        return commDataProcessor;
     }
 
-    public void setReceiveCommProcessor(CommDataProcessor receiveCommProcessor) {
-        this.receiveCommProcessor = receiveCommProcessor;
+    public void setCommDataProcessor(CommDataProcessor commDataProcessor) {
+        this.commDataProcessor = commDataProcessor;
     }
 
     public OutputTransducerBuffer getOutputTransducerBuffer() {
@@ -51,7 +51,7 @@ public class ScheduledTransducerSender implements Runnable {
     public static class ScheduledTransducerSenderBuilder implements Builder<ScheduledTransducerSender> {
 
         private DeviceTransducerDataService deviceTransducerDataService;
-        private CommDataProcessor receiveCommProcessor;
+        private CommDataProcessor commDataProcessor;
         private OutputTransducerBuffer outputTransducerBuffer;
         private DeviceTransducerDataData deviceTransducerData;
 
@@ -60,8 +60,8 @@ public class ScheduledTransducerSender implements Runnable {
             return this;
         }
 
-        public ScheduledTransducerSenderBuilder receiveCommProcessor(CommDataProcessor receiveCommProcessor){
-            this.receiveCommProcessor = receiveCommProcessor;
+        public ScheduledTransducerSenderBuilder commDataProcessor(CommDataProcessor commDataProcessor){
+            this.commDataProcessor = commDataProcessor;
             return this;
         }
 
@@ -85,18 +85,18 @@ public class ScheduledTransducerSender implements Runnable {
         this.deviceTransducerData = builder.deviceTransducerData;
         this.deviceTransducerDataService = builder.deviceTransducerDataService;
         this.outputTransducerBuffer = builder.outputTransducerBuffer;
-        this.receiveCommProcessor = builder.receiveCommProcessor;
+        this.commDataProcessor = builder.commDataProcessor;
     }
 
-    public ScheduledTransducerSender(DeviceTransducerDataService deviceTransducerDataService, CommDataProcessor receiveCommProcessor, OutputTransducerBuffer outputTransducerBuffer, DeviceTransducerDataData deviceTransducerData) {
+    public ScheduledTransducerSender(DeviceTransducerDataService deviceTransducerDataService, CommDataProcessor commDataProcessor, OutputTransducerBuffer outputTransducerBuffer, DeviceTransducerDataData deviceTransducerData) {
         this.deviceTransducerDataService = deviceTransducerDataService;
-        this.receiveCommProcessor = receiveCommProcessor;
+        this.commDataProcessor = commDataProcessor;
         this.outputTransducerBuffer = outputTransducerBuffer;
         this.deviceTransducerData = deviceTransducerData;
     }
 
     @Override
     public void run() {
-        outputTransducerBuffer.scheduleOutput(deviceTransducerDataService, deviceTransducerData, receiveCommProcessor);
+        outputTransducerBuffer.scheduleOutput(deviceTransducerDataService, deviceTransducerData, commDataProcessor);
     }
 }
