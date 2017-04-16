@@ -150,7 +150,9 @@ public class CommDataProcessor extends Observable implements Runnable{
                     .deviceTransducerDataData(transducerDataData)
                     .commDataProcessor(this)
                     .sensorDataBuffer(sensorDataBuffer)
-                    .systemInfoBuffer(systemInfoBuffer).build());
+                    .systemInfoBuffer(systemInfoBuffer)
+                    .serialPort(serialPort)
+                    .build());
 
 
             ExecutorService cachedThreadPool = ThreadPoolUtil.getInstance();

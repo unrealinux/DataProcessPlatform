@@ -52,6 +52,11 @@ public class SerialListener implements SerialPortEventListener {
         this.deviceTransducerDataData = builder.deviceTransducerDataData;
 
         this.commDataProcessor = builder.commDataProcessor;
+
+        this.serialPort = builder.serialPort;
+
+        this.sensorDataBuffer = builder.sensorDataBuffer;
+        this.systemInfoBuffer = builder.systemInfoBuffer;
     }
 
     public static class SerialListenerBuilder implements Builder<SerialListener> {

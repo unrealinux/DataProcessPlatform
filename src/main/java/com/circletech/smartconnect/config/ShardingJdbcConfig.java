@@ -39,24 +39,6 @@ public class ShardingJdbcConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driver;
 
-    @Value("${ds0.datasource.url}")
-    private String url;
-
-    @Value("${ds0.datasource.username}")
-    private String username;
-
-    @Value("${ds0.datasource.password}")
-    private String password;
-
-    @Value("${ds1.datasource.url}")
-    private String url1;
-
-    @Value("${ds1.datasource.username}")
-    private String username1;
-
-    @Value("${ds1.datasource.password}")
-    private String password1;
-
     @Value("classpath:database.json")
     private Resource databaseFile;
 

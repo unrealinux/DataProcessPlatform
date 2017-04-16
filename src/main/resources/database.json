@@ -1,0 +1,16 @@
+[
+  {
+    "name": "ds0",
+    "url": "jdbc:mysql://192.168.1.104:3306/gpsdb",
+    "username": "root",
+    "password": "ceilcell",
+    "driveClassName":"com.mysql.jdbc.Driver"
+  },
+  {
+    "name": "ds1",
+    "url": "jdbc:mysql://192.168.1.104:3306/gpsdb_1",
+    "username": "root",
+    "password": "ceilcell",
+    "driveClassName":"com.mysql.jdbc.Driver"
+  }
+]
