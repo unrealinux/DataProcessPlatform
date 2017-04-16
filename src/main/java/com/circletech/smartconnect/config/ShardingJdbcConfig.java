@@ -42,14 +42,14 @@ public class ShardingJdbcConfig {
     @Value("classpath:database.json")
     private Resource databaseFile;
 
-    @Value("${custom.sharddevicedistancetables}")
-    private String deviceDistanceTables;
+    //@Value("${custom.sharddevicedistancetables}")
+    //private String deviceDistanceTables;
 
-    @Value("${custom.sharddevicebaddistancetables}")
-    private String deviceBadDistanceTables;
+    //@Value("${custom.sharddevicebaddistancetables}")
+    //private String deviceBadDistanceTables;
 
-    @Value("${custom.sharddevicepositiontables}")
-    private String devicePositionTables;
+    //@Value("${custom.sharddevicepositiontables}")
+    //private String devicePositionTables;
 
     @Value("${custom.sharddevicetransducerdatatables}")
     private String deviceTransducerdataTables;
@@ -92,20 +92,6 @@ public class ShardingJdbcConfig {
 
         DataSourceRule dataSourceRule = new DataSourceRule(dataSourceHashMap, "ds0");
 
-        String[] distanceTables = deviceDistanceTables.split(";");
-        TableRule deviceDistanceTableRule = TableRule.builder("device_distance").actualTables(Arrays.asList(distanceTables)).dataSourceRule(dataSourceRule)
-                .databaseShardingStrategy(new DatabaseShardingStrategy("base_id", new ModuloDatabaseShardingAlgorithm(customConfig)))
-                .tableShardingStrategy(new TableShardingStrategy("device_id", new ModuloTableShardingAlgorithm(customConfig)))
-                .autoIncrementColumns("id")
-                .build();
-
-        String[] positionTables = devicePositionTables.split(";");
-        TableRule devicePositionTableRule = TableRule.builder("device_position").actualTables(Arrays.asList(positionTables)).dataSourceRule(dataSourceRule)
-                .databaseShardingStrategy(new DatabaseShardingStrategy("device_id", new ModuloDatabaseShardingAlgorithm(customConfig)))
-                .tableShardingStrategy(new TableShardingStrategy("id", new ModuloTableShardingAlgorithm(customConfig)))
-                .autoIncrementColumns("id")
-                .build();
-
         String[] transducerdataTables = deviceTransducerdataTables.split(";");
         TableRule deviceTransducerDataTableRule = TableRule.builder("device_transducer_data").actualTables(Arrays.asList(transducerdataTables)).dataSourceRule(dataSourceRule)
                 .databaseShardingStrategy(new DatabaseShardingStrategy("device_id", new ModuloDatabaseShardingAlgorithm(customConfig)))
@@ -113,16 +99,9 @@ public class ShardingJdbcConfig {
                 .autoIncrementColumns("id")
                 .build();
 
-        String[] baddistanceTables = deviceBadDistanceTables.split(";");
-        TableRule deviceBadDistanceTableRule = TableRule.builder("device_bad_distance").actualTables(Arrays.asList(baddistanceTables)).dataSourceRule(dataSourceRule)
-                .databaseShardingStrategy(new DatabaseShardingStrategy("base_id", new ModuloDatabaseShardingAlgorithm(customConfig)))
-                .tableShardingStrategy(new TableShardingStrategy("device_id", new ModuloTableShardingAlgorithm(customConfig)))
-                .autoIncrementColumns("id")
-                .build();
-
         ShardingRule shardingRule = ShardingRule.builder()
                 .dataSourceRule(dataSourceRule)
-                .tableRules(Arrays.asList(deviceDistanceTableRule, devicePositionTableRule, deviceTransducerDataTableRule, deviceBadDistanceTableRule))
+                .tableRules(Arrays.asList(deviceTransducerDataTableRule))
                 .idGenerator(com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator.class)
                 .build();
 
