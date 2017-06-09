@@ -32,8 +32,8 @@ public class AmqpMessageController {
     public void constructor(String amqpExchangeName){
         this.amqpExchangeName = amqpExchangeName;
 
-        androidSensorObserver = new MobileDeviceTransducerDataObserver(rabbitTemplate, this.amqpExchangeName, "android-gps-sensor-data");
-        iosSensorObserver = new MobileDeviceTransducerDataObserver(rabbitTemplate, this.amqpExchangeName, "ios-gps-sensor-data");
+        androidSensorObserver = new MobileDeviceTransducerDataObserver(null, rabbitTemplate, this.amqpExchangeName, "android-gps-sensor-data");
+        iosSensorObserver = new MobileDeviceTransducerDataObserver(null, rabbitTemplate, this.amqpExchangeName, "ios-gps-sensor-data");
     }
 
     public void receiveMessage(byte[] body){

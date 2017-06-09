@@ -33,6 +33,9 @@ public class WebSocketMessageController {
     @Autowired
     private CustomConfig customConfig;
 
+    @Autowired
+    KafkaSender kafkaSender;
+
     @MessageMapping("/init")
     public void initComm() throws Exception {
         simpMessagingTemplate.setDefaultDestination("/topic/comm");

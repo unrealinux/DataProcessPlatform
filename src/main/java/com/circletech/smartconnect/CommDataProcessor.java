@@ -64,6 +64,16 @@ public class CommDataProcessor extends Observable implements Runnable{
 
     private boolean isActive;
 
+    private boolean isCloseSerial;
+
+    public boolean isCloseSerial() {
+        return isCloseSerial;
+    }
+
+    public void setCloseSerial(boolean closeSerial) {
+        isCloseSerial = closeSerial;
+    }
+
     public void constructor(DeviceTransducerDataService deviceTransducerDataService,
                             DeviceSystemInfoService deviceSystemInfoService,
                             DeviceTransducerDataData deviceTransducerDataData,
@@ -84,7 +94,8 @@ public class CommDataProcessor extends Observable implements Runnable{
         this.outputTransducerBuffer = new OutputTransducerBuffer(maxsize);
         this.outputSystemInfoBuffer = new OutputSystemInfoBuffer(maxsize);
 
-        isActive = false;
+        isActive = true;
+        isCloseSerial = false;
     }
 
     public DeviceTransducerDataService getDeviceTransducerDataService() {
@@ -211,6 +222,7 @@ public class CommDataProcessor extends Observable implements Runnable{
 
     public void close() {
         SerialUtil.closePort(serialPort);
+        isCloseSerial = true;
         isActive = false;
     }
 

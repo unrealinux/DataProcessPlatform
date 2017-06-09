@@ -92,6 +92,7 @@ public class DataProcessMonitor implements Runnable{
             if (reinvokeprocess == 1
                     && !receiverWatchdog.checkAlive()
                     && currentSensorReceiver != null
+                    && !currentSensorReceiver.isCloseSerial()
                     && !currentSensorReceiver.isActive()) {
                 //stop current thread. Drop current pointer to the garbage collector. Init another thread.
                 currentSensorReceiver.close();
