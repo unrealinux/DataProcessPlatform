@@ -217,11 +217,6 @@ public class SerialListener implements SerialPortEventListener {
                                             //1.1 查找数据头
                                             if (buffer[0] == (byte) 0x51) //传输数据有帧头，用于判断
                                             {
-                                                if (buffer[1] == (byte) 0xFF && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0xF0) {
-                                                    buffer = Arrays.copyOfRange(buffer, 4, buffer.length);
-                                                    continue;
-                                                }
-
                                                 int len = buffer[1];
                                                 if(len <= 0){//无效的长度数据
                                                     buffer = Arrays.copyOfRange(buffer, 1, buffer.length);
@@ -232,6 +227,12 @@ public class SerialListener implements SerialPortEventListener {
                                                 {
                                                     break;
                                                 }
+
+                                                if (buffer[1] == (byte) 0xFF && buffer[2] == (byte) 0x00 && buffer[3] == (byte) 0xF0) {
+                                                    buffer = Arrays.copyOfRange(buffer, 4, buffer.length);
+                                                    continue;
+                                                }
+
                                                 //获取和校验的值
                                                 byte jiaoyan = GetSum(buffer, 2, len);
                                                 if (jiaoyan != buffer[2 + len]) //和校验
@@ -252,9 +253,6 @@ public class SerialListener implements SerialPortEventListener {
 
                                                 byte[] b;
                                                 b = Arrays.copyOfRange(buffer, 0, len + 4);
-
-                                                buffer = Arrays.copyOfRange(buffer, len + 4, buffer.length);
-
                                                 //数据处理
                                                 switch (b[4]) {
                                                     case 0x02:
@@ -278,10 +276,15 @@ public class SerialListener implements SerialPortEventListener {
                                                     default:
                                                         break;
                                                 }
+
+                                                buffer = Arrays.copyOfRange(buffer, len + 4, buffer.length);
+
                                             } else {//帧头不正确时，清除该byte
                                                 LoggerUtil.getInstance().info("帧头不正确时，清除该byte");
                                                 buffer = Arrays.copyOfRange(buffer, 1, buffer.length);
                                             }
+
+
                                         }
                                     }
                                 }
