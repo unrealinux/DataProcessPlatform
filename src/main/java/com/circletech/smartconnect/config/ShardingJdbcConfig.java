@@ -96,13 +96,13 @@ public class ShardingJdbcConfig {
         TableRule deviceTransducerDataTableRule = TableRule.builder("device_transducer_data").actualTables(Arrays.asList(transducerdataTables)).dataSourceRule(dataSourceRule)
                 .databaseShardingStrategy(new DatabaseShardingStrategy("device_id", new ModuloDatabaseShardingAlgorithm(customConfig)))
                 .tableShardingStrategy(new TableShardingStrategy("code", new ModuloTableShardingAlgorithm(customConfig)))
-                .autoIncrementColumns("id")
+                .generateKeyColumn("id")
                 .build();
 
         ShardingRule shardingRule = ShardingRule.builder()
                 .dataSourceRule(dataSourceRule)
                 .tableRules(Arrays.asList(deviceTransducerDataTableRule))
-                .idGenerator(com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator.class)
+                .keyGenerator(com.dangdang.ddframe.rdb.sharding.keygen.DefaultKeyGenerator.class)
                 .build();
 
         return ShardingDataSourceFactory.createDataSource(shardingRule);

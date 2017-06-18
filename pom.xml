@@ -22,10 +22,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<druid.version>1.0.11</druid.version>
+		<druid.version>1.0.31</druid.version>
 		<rxtx.version>1.9.1</rxtx.version>
 		<netty.version>4.0.30.Final</netty.version>
-		<shardingjdbc.version>1.4.1</shardingjdbc.version>
+		<shardingjdbc.version>1.5.0.M1</shardingjdbc.version>
 		<com.google.code.gson.version>2.8.0</com.google.code.gson.version>
 	</properties>
 
