@@ -15,6 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.2.RELEASE</version>
+
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -25,7 +26,7 @@
 		<druid.version>1.0.31</druid.version>
 		<rxtx.version>1.9.1</rxtx.version>
 		<netty.version>4.0.30.Final</netty.version>
-		<shardingjdbc.version>1.5.0.M1</shardingjdbc.version>
+		<shardingjdbc.version>4.0.0-RC1</shardingjdbc.version>
 		<com.google.code.gson.version>2.8.0</com.google.code.gson.version>
 	</properties>
 
@@ -33,7 +34,9 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
@@ -116,16 +119,18 @@
 
 		<!-- 引入sharding-jdbc核心模块 -->
 		<dependency>
-			<groupId>com.dangdang</groupId>
+			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-core</artifactId>
 			<version>${shardingjdbc.version}</version>
+
 		</dependency>
 
+		<!--
 		<dependency>
-			<groupId>com.dangdang</groupId>
+			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-self-id-generator</artifactId>
-			<version>${shardingjdbc.version}</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -137,6 +142,12 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<version>1.5.0.M1</version>
+		</dependency>
+
 
 	</dependencies>
 
